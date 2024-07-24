@@ -7,3 +7,7 @@ package FedMsg;
 enum Exchange {
   DBT = 0;
 }
+
+enum PortfolioName {
+  DBT_SP = 0;
+}

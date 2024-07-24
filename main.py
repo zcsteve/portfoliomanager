@@ -1,9 +1,10 @@
 import asyncio
-from logger import Logger
-import websockets
 import json
 
+import websockets
 
+from heartbeat import HeartBeat
+from logger import Logger
 
 #
 
@@ -54,6 +55,18 @@ import json
 async def main():
     lger = Logger("main", log_file="./logs/main.log").get_logger()
     lger.info("Starting main")
+    uri = "wss://www.deribit.com/ws/api/v2"
+    async with websockets.connect(uri) as ws:
+        lger.info("Connected to Deribit")
+        await hb.start_heartbeat()
+        lger.info("Started heartbeat")
+        await asyncio.gather(hb.start_heartbeat(), hb.start_heartbeat())
+        lger.info("Started heartbeat")
+        # await subscribe_orders(ws)
+        # await asyncio.gather(handle_messages(ws), heartbeat(ws))
+        # await asyncio.gather(hb.start_heartbeat(), hb.start_heartbeat())
+        # lger.info("Started heartbeat")
+    hb = HeartBeat(interval=10)
 
 
 if __name__ == "__main__":
